@@ -16,10 +16,55 @@ st.caption("Dashboard Analisis Penjualan Menggunakan Doubly Linked List")
 if 'sales_list' not in st.session_state:
     st.session_state.sales_list = logic.SalesLinkedList()
 
-st.subheader("Status Sistem")
+# FORM INPUT DATA
+st.subheader("➕ Tambah Data Penjualan")
 
-st.success("Doubly Linked List berhasil diinisialisasi")
+with st.form("form_penjualan"):
 
-st.write("Head:", st.session_state.sales_list.head)
-st.write("Tail:", st.session_state.sales_list.tail)
-st.write("Size:", st.session_state.sales_list.size)
+    tanggal = st.date_input("Tanggal")
+
+    kategori = st.selectbox(
+        "Kategori",
+        [
+            "Elektronik",
+            "Fashion",
+            "Kebutuhan Rumah",
+            "Kesehatan"
+        ]
+    )
+
+    wilayah = st.selectbox(
+        "Wilayah",
+        [
+            "Jakarta",
+            "Bandung",
+            "Surabaya",
+            "Makassar"
+        ]
+    )
+
+    jumlah = st.number_input(
+        "Jumlah Penjualan",
+        min_value=1,
+        step=1
+    )
+
+    pendapatan = st.number_input(
+        "Pendapatan",
+        min_value=1000
+    )
+
+    submit = st.form_submit_button("Tambah Data")
+
+    if submit:
+
+        st.session_state.sales_list.insert_end(
+            str(tanggal),
+            kategori,
+            wilayah,
+            jumlah,
+            pendapatan
+        )
+
+        st.success("Data berhasil ditambahkan")
+

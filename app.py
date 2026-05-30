@@ -67,4 +67,15 @@ with st.form("form_penjualan"):
         )
 
         st.success("Data berhasil ditambahkan")
+    
+# AMBIL DATA DARI LINKED LIST
+df = st.session_state.sales_list.traversal_forward()
+
+# TAMPILKAN DATA
+st.subheader("📋 Data Penjualan")
+
+if not df.empty:
+    st.dataframe(df)
+else:
+    st.warning("Belum ada data")
 

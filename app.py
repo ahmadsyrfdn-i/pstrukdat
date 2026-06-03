@@ -83,32 +83,34 @@ if not df.empty:
 
     st.subheader("📌 KPI Dashboard")
 
-    metrics = logic.get_kpi_metrics(df)
+    total_revenue, total_customer, avg_sales, avg_income = (
+    logic.get_kpi_metrics(df)
+    )
 
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.metric(
             "Total Revenue",
-            f"Rp {metrics['total_revenue']:,.0f}"
+            f"Rp {total_revenue:,.0f}"
         )
 
     with col2:
         st.metric(
             "Total Data",
-            metrics['total_customer']
+            total_customer
         )
 
     with col3:
         st.metric(
             "Rata-rata Penjualan",
-            f"{metrics['avg_sales']:.2f}"
+            f"{avg_sales:.2f}"
         )
 
     with col4:
         st.metric(
             "Rata-rata Pendapatan",
-            f"Rp {metrics['avg_income']:,.0f}"
+            f"Rp {avg_income:,.0f}"
         )
         
     top_category = (

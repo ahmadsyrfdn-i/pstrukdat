@@ -9,67 +9,90 @@ st.set_page_config(
 )
 
 # HEADER
-st.title("📊 VizBiz Business Intelligence Dashboard")
-st.caption("Dashboard Analisis Penjualan Menggunakan Doubly Linked List")
+st.title("📊 VizBiz Analytics")
+
+st.markdown("""
+### Business Intelligence Dashboard
+
+Pantau performa penjualan berdasarkan kategori produk dan wilayah secara real-time menggunakan implementasi Doubly Linked List.
+""")
 
 # SESSION STATE
 if 'sales_list' not in st.session_state:
     st.session_state.sales_list = logic.SalesLinkedList()
 
 # FORM INPUT DATA
-st.subheader("➕ Tambah Data Penjualan")
+with st.sidebar:
 
-with st.form("form_penjualan"):
+    st.header("➕ Input Data Penjualan")
 
-    tanggal = st.date_input("Tanggal")
+    with st.form("form_penjualan"):
 
-    kategori = st.selectbox(
-        "Kategori",
-        [
-            "Elektronik",
-            "Fashion",
-            "Kebutuhan Rumah",
-            "Kesehatan"
-        ]
-    )
+        tanggal = st.date_input("Tanggal")
 
-    wilayah = st.selectbox(
-        "Wilayah",
-        [
-            "Jakarta",
-            "Bandung",
-            "Surabaya",
-            "Makassar"
-        ]
-    )
-
-    jumlah = st.number_input(
-        "Jumlah Penjualan",
-        min_value=1,
-        step=1
-    )
-
-    pendapatan = st.number_input(
-        "Pendapatan",
-        min_value=1000
-    )
-
-    submit = st.form_submit_button("Tambah Data")
-
-    if submit:
-
-        st.session_state.sales_list.insert_end(
-            str(tanggal),
-            kategori,
-            wilayah,
-            jumlah,
-            pendapatan
+        kategori = st.selectbox(
+            "Kategori",
+            [
+                "Elektronik",
+                "Fashion",
+                "Kebutuhan Rumah",
+                "Kesehatan"
+            ]
         )
 
-        st.success("Data berhasil ditambahkan")
-    
+        wilayah = st.selectbox(
+            "Wilayah",
+            [
+                "Jakarta",
+                "Bandung",
+                "Surabaya",
+                "Makassar"
+            ]
+        )
+
+        jumlah = st.number_input(
+            "Jumlah Penjualan",
+            min_value=1,
+            step=1
+        )
+
+        pendapatan = st.number_input(
+            "Pendapatan",
+            min_value=1000
+        )
+
+        submit = st.form_submit_button("💾 Simpan Data")
+
+        if submit:
+
+            st.session_state.sales_list.insert_end(
+                str(tanggal),
+                kategori,
+                wilayah,
+                jumlah,
+                pendapatan
+            )
+
+            st.success("Data berhasil ditambahkan")
+
 # AMBIL DATA DARI LINKED LIST
 df = st.session_state.sales_list.traversal_forward()
+
+# SEARCH DATA
+st.subheader("🔍 Cari Data")
+
+keyword = st.text_input("Cari kategori")
+
+if keyword:
+
+    result = st.session_state.sales_list.search_category(
+        keyword
+    )
+
+    if not result.empty:
+        st.dataframe(result)
+    else:
+        st.warning("Data tidak ditemukan")
 
 # TAMPILKAN DATA
 st.subheader("📋 Data Penjualan")
@@ -78,4 +101,3 @@ if not df.empty:
     st.dataframe(df)
 else:
     st.warning("Belum ada data")
-

@@ -24,12 +24,11 @@ class SalesLinkedList:
 
     def __init__(self):
 
-        
         self.head = None
         self.tail = None
         self.size = 0
-        
- # INSERT DATA
+
+    # INSERT DATA
     def insert_end(self,tanggal,kategori,wilayah,jumlah,pendapatan):
 
         new_node = SalesNode(tanggal,kategori,wilayah,jumlah,pendapatan)
@@ -48,8 +47,8 @@ class SalesLinkedList:
             self.tail = new_node
 
         self.size += 1
-        
-# TRAVERSAL FORWARD
+
+    # TRAVERSAL FORWARD
     def traversal_forward(self):
 
         current = self.head
@@ -58,16 +57,37 @@ class SalesLinkedList:
         while current:
 
             data.append({
-            'Tanggal': current.tanggal,
-            'Kategori': current.kategori,
-            'Wilayah': current.wilayah,
-            'Jumlah_Penjualan': current.jumlah,
-            'Pendapatan': current.pendapatan,
-            'Total_Pendapatan': current.total
-        })
+                'Tanggal': current.tanggal,
+                'Kategori': current.kategori,
+                'Wilayah': current.wilayah,
+                'Jumlah_Penjualan': current.jumlah,
+                'Pendapatan': current.pendapatan,
+                'Total_Pendapatan': current.total
+            })
 
             current = current.next
 
         return pd.DataFrame(data)
 
-    
+    # SEARCH DATA
+    def search_category(self, keyword):
+
+        current = self.head
+        result = []
+
+        while current:
+
+            if keyword.lower() in current.kategori.lower():
+
+                result.append({
+                    'Tanggal': current.tanggal,
+                    'Kategori': current.kategori,
+                    'Wilayah': current.wilayah,
+                    'Jumlah_Penjualan': current.jumlah,
+                    'Pendapatan': current.pendapatan,
+                    'Total_Pendapatan': current.total
+                })
+
+            current = current.next
+
+        return pd.DataFrame(result)

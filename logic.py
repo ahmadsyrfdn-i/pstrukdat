@@ -92,8 +92,7 @@ class SalesLinkedList:
 
         return pd.DataFrame(result)
     
-    # DELETE DATA
-
+# DELETE DATA
     def delete_by_category(self, category):
 
         current = self.head
@@ -102,13 +101,13 @@ class SalesLinkedList:
 
             if current.kategori == category:
 
-            # Jika node pertama
-             if current.prev is None:
+                # Jika node pertama
+                if current.prev is None:
 
-                self.head = current.next
+                    self.head = current.next
 
-                if self.head:
-                    self.head.prev = None
+                    if self.head:
+                        self.head.prev = None
 
             # Jika node tengah / akhir
             else:
@@ -117,15 +116,36 @@ class SalesLinkedList:
 
             # Jika node terakhir
             if current.next:
+
                 current.next.prev = current.prev
 
             else:
+
                 self.tail = current.prev
 
             self.size -= 1
 
             return True
 
-            current = current.next
+        current = current.next
 
-        return False
+        return False    
+# KPI DATA
+def get_kpi_metrics(df):
+
+        total_revenue = df['Total_Pendapatan'].sum()
+
+        total_customer = len(df)
+
+        avg_sales = df['Jumlah_Penjualan'].mean()
+
+        avg_income = df['Pendapatan'].mean()
+
+        return {
+            
+        'total_revenue': total_revenue,
+        'total_customer': total_customer,
+        'avg_sales': avg_sales,
+        'avg_income': avg_income
+        
+        }

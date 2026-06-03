@@ -110,6 +110,41 @@ if not df.empty:
             "Rata-rata Pendapatan",
             f"Rp {metrics['avg_income']:,.0f}"
         )
+        
+    top_category = (
+    df.groupby('Kategori')['Total_Pendapatan']
+    .sum()
+    .idxmax()
+    )
+
+    st.info(
+    f"📌 Kategori dengan kontribusi pendapatan terbesar saat ini adalah **{top_category}**."
+    )
+    
+# VISUALISASI DATA
+if not df.empty:
+
+    st.subheader("📈 Visualisasi Penjualan")
+
+    col_chart1, col_chart2 = st.columns(2)
+
+    kategori_chart = (
+        df.groupby('Kategori')['Total_Pendapatan']
+        .sum()
+    )
+
+    wilayah_chart = (
+        df.groupby('Wilayah')['Total_Pendapatan']
+        .sum()
+    )
+
+    with col_chart1:
+        st.markdown("#### Pendapatan per Kategori")
+        st.bar_chart(kategori_chart)
+
+    with col_chart2:
+        st.markdown("#### Pendapatan per Wilayah")
+        st.line_chart(wilayah_chart)
 
 # SEARCH DATA
 st.subheader("🔍 Cari Data")
@@ -128,12 +163,20 @@ if keyword:
         st.warning("Data tidak ditemukan")
 
 # TAMPILKAN DATA
-st.subheader("📋 Data Penjualan")
+st.divider()
+
+st.subheader("📋 Detail Data Penjualan")
 
 if not df.empty:
-    st.dataframe(df)
+
+    st.dataframe(
+        df,
+        use_container_width=True
+    )
+
 else:
-    st.warning("Belum ada data")
+
+    st.warning("Belum ada data penjualan.")
     
 # DELETE DATA
 st.subheader("🗑 Hapus Data")
@@ -159,27 +202,8 @@ if st.button("Hapus Data"):
     else:
         st.error("Data tidak ditemukan")
         
-# VISUALISASI DATA
-if not df.empty:
+st.divider()
 
-    st.subheader("📈 Visualisasi Penjualan")
-
-    col_chart1, col_chart2 = st.columns(2)
-
-    kategori_chart = (
-        df.groupby('Kategori')['Total_Pendapatan']
-        .sum()
-    )
-
-    wilayah_chart = (
-        df.groupby('Wilayah')['Total_Pendapatan']
-        .sum()
-    )
-
-    with col_chart1:
-        st.markdown("#### Pendapatan per Kategori")
-        st.bar_chart(kategori_chart)
-
-    with col_chart2:
-        st.markdown("#### Pendapatan per Wilayah")
-        st.line_chart(wilayah_chart)
+st.caption(
+    "VizBiz Analytics Dashboard | UAS Struktur Data | Doubly Linked List + Streamlit"
+)

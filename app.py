@@ -3,7 +3,7 @@ import logic
 
 # KONFIGURASI HALAMAN
 st.set_page_config(
-    page_title="VizBiz Dashboard",
+    page_title="VizBiz Analytics",
     page_icon="📊",
     layout="wide"
 )
@@ -158,3 +158,28 @@ if st.button("Hapus Data"):
         st.success("Data berhasil dihapus")
     else:
         st.error("Data tidak ditemukan")
+        
+# VISUALISASI DATA
+if not df.empty:
+
+    st.subheader("📈 Visualisasi Penjualan")
+
+    col_chart1, col_chart2 = st.columns(2)
+
+    kategori_chart = (
+        df.groupby('Kategori')['Total_Pendapatan']
+        .sum()
+    )
+
+    wilayah_chart = (
+        df.groupby('Wilayah')['Total_Pendapatan']
+        .sum()
+    )
+
+    with col_chart1:
+        st.markdown("#### Pendapatan per Kategori")
+        st.bar_chart(kategori_chart)
+
+    with col_chart2:
+        st.markdown("#### Pendapatan per Wilayah")
+        st.line_chart(wilayah_chart)

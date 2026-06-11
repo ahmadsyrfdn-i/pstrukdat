@@ -152,17 +152,25 @@ class SalesLinkedList:
 # KPI DATA
 def get_kpi_metrics(df):
 
+    # KPI 1
     total_revenue = df['Total_Pendapatan'].sum()
 
-    total_customer = len(df)
+    # KPI 2
+    total_transaction = len(df)
 
-    avg_sales = df['Jumlah_Penjualan'].mean()
+    # KPI 3
+    total_unit_sold = df['Jumlah_Penjualan'].sum()
 
-    avg_income = df['Pendapatan'].mean()
+    # KPI 4
+    avg_transaction_value = (
+        total_revenue / total_transaction
+        if total_transaction > 0
+        else 0
+    )
 
     return (
         total_revenue,
-        total_customer,
-        avg_sales,
-        avg_income
+        total_transaction,
+        total_unit_sold,
+        avg_transaction_value
     )

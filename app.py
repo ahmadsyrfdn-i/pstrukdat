@@ -83,46 +83,48 @@ if not df.empty:
 
     st.subheader("📌 KPI Dashboard")
 
-    total_revenue, total_customer, avg_sales, avg_income = (
-    logic.get_kpi_metrics(df)
-    )
+    (
+        total_revenue,
+        total_transaction,
+        total_unit_sold,
+        avg_transaction_value
+    ) = logic.get_kpi_metrics(df)
 
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.metric(
-            "Total Revenue",
+            "💰 Total Revenue",
             f"Rp {total_revenue:,.0f}"
         )
 
     with col2:
         st.metric(
-            "Total Data",
-            total_customer
+            "📄 Total Transaksi",
+            total_transaction
         )
 
     with col3:
         st.metric(
-            "Rata-rata Penjualan",
-            f"{avg_sales:.2f}"
+            "📦 Total Unit Terjual",
+            total_unit_sold
         )
 
     with col4:
         st.metric(
-            "Rata-rata Pendapatan",
-            f"Rp {avg_income:,.0f}"
+            "💵 Rata-rata Nilai Transaksi",
+            f"Rp {avg_transaction_value:,.0f}"
         )
-        
+
     top_category = (
-    df.groupby('Kategori')['Total_Pendapatan']
-    .sum()
-    .idxmax()
+        df.groupby('Kategori')['Total_Pendapatan']
+        .sum()
+        .idxmax()
     )
 
     st.info(
-    f"📌 Kategori dengan kontribusi pendapatan terbesar saat ini adalah **{top_category}**."
+        f"📌 Kategori dengan kontribusi pendapatan terbesar saat ini adalah **{top_category}**."
     )
-    
 # VISUALISASI DATA
 if not df.empty:
 

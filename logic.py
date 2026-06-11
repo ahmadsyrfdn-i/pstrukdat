@@ -13,13 +13,11 @@ class SalesNode:
 
         self.total = jumlah * pendapatan
 
-        self.next = None
-        self.prev = None
+        self.next = None # next node
+        self.prev = None # previous node
 
 
-# =========================
 # DOUBLY LINKED LIST
-# =========================
 class SalesLinkedList:
 
     def __init__(self):
@@ -44,7 +42,7 @@ class SalesLinkedList:
 
             self.tail.next = new_node
             new_node.prev = self.tail
-            self.tail = new_node
+            self.tail = new_node 
 
         self.size += 1
 
